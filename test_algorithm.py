@@ -22,5 +22,19 @@ class test_algorithm(unittest.TestCase):
 		self.assertEqual(str(polar_list[1]), str(Point(2, 1)))
 		self.assertEqual(str(polar_list[-1]), str(Point(2, 3)))
 
+
+	def test_output_polar(self):
+
+		point_array = [
+			Point(19.2486849886, 42.0138353124), 
+			Point(34.6545353825, 5.95845608147), 
+			Point(66.6014654767, 66.0841191785), 
+			Point(49.1321252346, 86.6154463314)
+		]
+		algo = Algorithm(point_array)
+		polar_list = algo.polar_angle_sort(Point(34.6545353825, 5.95845608147))
+
+		self.assertEqual(str(polar_list[0]), str(Point(34.6545353825, 5.95845608147)))
+
 if __name__ == '__main__':
 	unittest.main()

@@ -13,7 +13,7 @@ window = pygame.display.set_mode((800, 600))
 
 rend = Renderer(window)
 
-point_list = Point.generate_points(100, -100, 100, -100, 100)
+point_list = Point.generate_points(200, 0, 100, 0, 100)
 algo = Algorithm(point_list)
 
 #rend.queue_algorithm(algo)
@@ -21,7 +21,7 @@ algo = Algorithm(point_list)
 algo.next_step()
 algo.next_step()
 
-
+#print algo.state_manager.current_state
 
 rend.queue_algorithm(algo)
 
