@@ -14,7 +14,8 @@ class Point:
 			return -1
 		if base.x == comp.x:
 			return math.pi/2 if base.y < comp.y else 3*math.pi/2
-		return math.atan((comp.y - base.y)/(1.0 * (comp.x - base.x)))
+		angle = math.atan((comp.y - base.y)/(1.0 * (comp.x - base.x))) 
+		return angle if angle >= 0 else angle + math.pi
 
 	def __str__(self):
 		return "Point(%s, %s)"%(self.x, self.y)
@@ -77,6 +78,11 @@ if __name__ == '__main__':
 	assert Point.calculate_polar_angle(Point(2, 2), Point(4, 5)) == math.atan(1.5)
 
 	assert (Point(1,1) == Point(1,1)) == True
+
+	point1 = Point(1,1)
+	point2 = Point(0,2)
+
+	assert Point.calculate_polar_angle(point1, point2) > 0
 
 
 

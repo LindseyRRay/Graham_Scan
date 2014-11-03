@@ -14,7 +14,7 @@ window = pygame.display.set_mode((800, 600))
 
 rend = Renderer(window)
 
-point_list = Point.generate_points(200, -100, 100, -100, 100)
+point_list = Point.generate_points(100, -200, 200, -200, 200)
 algo = Algorithm(point_list)
 
 while True:

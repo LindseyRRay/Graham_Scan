@@ -21,6 +21,7 @@ class Renderer:
 	def queue_algorithm(self, algo):
 		[self.queue_point(point, color=RED) for point in algo.point_array]
 		self.queue_point(algo.point_array[0], color=BLUE)
+		[self.queue_segment(segment) for segment in algo.segments()]
 
 	def local_to_world(self, tup):
 		new_x = int(tup[0] + self.window.get_width()/2)

@@ -1,6 +1,6 @@
 #Algorithm
 from state_manager import StateManager, State
-from geometry import Point
+from geometry import Point, Segment
 import sys
 import copy
 
@@ -11,7 +11,15 @@ class Algorithm:
 		self.stack = list()
 		self.state_manager = StateManager()
 
+	def increment_state(self):
+		self.state_manager.increment_state()
 
+	def segments(self):
+		if not self.stack:
+			return [] 
+		tuple_list = zip(self.stack, self.stack[1:])
+		segment_list = map(lambda x: Segment(x[0], x[1]), tuple_list)
+		return segment_list
 
 	def min_point(self):
 		#return leftmost min point by y coord
@@ -28,9 +36,19 @@ class Algorithm:
 		sort_list.insert(0, min_point)
 		return sort_list
 
-
 	def sort_point_array(self):
 		self.point_array = self.polar_angle_sort(self.min_point())
+
+	def init_stack(self):
+		self.stack = list()
+		self.stack.append(self.point_array[0])
+		self.stack.append(self.point_array[1])
+		self.stack.append(self.point_array[2])
+		self.stack.append(self.point_array[3])
+		self.stack.append(self.point_array[4])
+		self.stack.append(self.point_array[5])
+		self.stack.append(self.point_array[6])
+
 
 
 	def next_step(self):
@@ -41,7 +59,8 @@ class Algorithm:
 			self.sort_point_array()
 			self.increment_state()
 
-	def increment_state(self):
-		self.state_manager.increment_state()
+		elif self.state_manager.current_state == State.init_stack:
+			self.init_stack()
+
 
 					
