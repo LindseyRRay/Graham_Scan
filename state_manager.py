@@ -4,13 +4,12 @@ from enum import Enum
 class State(Enum):
 	not_run = 0
 	initial_point = 1
-	polar_angle = 2
-	init_stack = 3
-	select_point = 4
-	check_angle = 5
-	pop = 6
-	push = 7
-	complete = 8
+	init_stack = 2
+	select_point = 3
+	check_angle = 4
+	pop = 5
+	push = 6
+	complete = 7
 
 
 class StateManager:
@@ -22,9 +21,6 @@ class StateManager:
 			self.current_state = State.initial_point
 
 		elif self.current_state == State.initial_point:
-			self.current_state = State.polar_angle
-
-		elif self.current_state == State.polar_angle:
 			self.current_state = State.init_stack
 
 		elif self.current_state == State.init_stack:

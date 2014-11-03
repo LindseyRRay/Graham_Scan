@@ -13,9 +13,6 @@ class Test_State_Manager(unittest.TestCase):
 		self.assertEqual(test_state.current_state, State.initial_point)
 
 		test_state.increment_state()
-		self.assertEqual(test_state.current_state, State.polar_angle)
-
-		test_state.increment_state()
 		self.assertEqual(test_state.current_state, State.init_stack)
 
 		test_state.increment_state()

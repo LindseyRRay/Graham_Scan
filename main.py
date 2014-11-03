@@ -3,6 +3,7 @@ import sys
 from geometry import Point
 import random
 from renderer import Renderer
+from algorithm import Algorithm
 
 
 random.seed()
@@ -12,8 +13,17 @@ window = pygame.display.set_mode((800, 600))
 
 rend = Renderer(window)
 
-point_list = Point.generate_points(100, -500, 500, -500, 500)
-map(lambda x: rend.queue_point(x), point_list)
+point_list = Point.generate_points(100, -100, 100, -100, 100)
+algo = Algorithm(point_list)
+
+#rend.queue_algorithm(algo)
+
+algo.next_step()
+algo.next_step()
+
+
+
+rend.queue_algorithm(algo)
 
 rend.draw()
 
