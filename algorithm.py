@@ -44,10 +44,6 @@ class Algorithm:
 		self.stack.append(self.point_array[0])
 		self.stack.append(self.point_array[1])
 		self.stack.append(self.point_array[2])
-		self.stack.append(self.point_array[3])
-		self.stack.append(self.point_array[4])
-		self.stack.append(self.point_array[5])
-		self.stack.append(self.point_array[6])
 
 
 
