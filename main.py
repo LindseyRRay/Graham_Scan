@@ -1,5 +1,6 @@
 import pygame
 import sys
+import time
 from geometry import Point
 import random
 from renderer import Renderer
@@ -13,22 +14,15 @@ window = pygame.display.set_mode((800, 600))
 
 rend = Renderer(window)
 
-point_list = Point.generate_points(200, 0, 100, 0, 100)
+point_list = Point.generate_points(200, -100, 100, -100, 100)
 algo = Algorithm(point_list)
-
-#rend.queue_algorithm(algo)
-
-algo.next_step()
-algo.next_step()
-
-#print algo.state_manager.current_state
-
-rend.queue_algorithm(algo)
-
-rend.draw()
 
 while True:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit(0)
+	algo.next_step()
+	rend.queue_algorithm(algo)
+	rend.draw()
+	time.sleep(2)
 #pygame.draw.circle
