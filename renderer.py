@@ -4,6 +4,7 @@ import geometry as g
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
+CHART = (127, 255, 0)
 
 
 class Renderer:
@@ -22,6 +23,8 @@ class Renderer:
 		[self.queue_point(point, color=RED) for point in algo.point_array]
 		self.queue_point(algo.point_array[0], color=BLUE)
 		[self.queue_segment(segment) for segment in algo.segments()]
+		if algo.index >= 3:
+			self.queue_point(algo.point_array[algo.index], color=CHART)
 
 	def local_to_world(self, tup):
 		new_x = int(tup[0] + self.window.get_width()/2)

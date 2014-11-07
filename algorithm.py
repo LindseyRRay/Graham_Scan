@@ -10,6 +10,7 @@ class Algorithm:
 		self.point_array = point_array
 		self.stack = list()
 		self.state_manager = StateManager()
+		self.index = 0
 
 	def increment_state(self):
 		self.state_manager.increment_state()
@@ -44,6 +45,16 @@ class Algorithm:
 		self.stack.append(self.point_array[0])
 		self.stack.append(self.point_array[1])
 		self.stack.append(self.point_array[2])
+		self.index = 2
+#pseudo code
+
+#	def select_point(self):
+#		self.index += 1
+#		for self.index in xrange(3, len(point_array)):
+#			while angle(self.stack[-2], self.stack[-1], next_point) > nonleftturn:
+#				pop(self.stack[-1])
+#			push(next_point onto stack)
+#		return stack 
 
 
 
@@ -57,6 +68,10 @@ class Algorithm:
 
 		elif self.state_manager.current_state == State.init_stack:
 			self.init_stack()
+			self.increment_state()
 
-
+		elif self.state_manager.current_state == State.select_point:
+			self.select_point()
+			self.increment_state()
+ 
 					
