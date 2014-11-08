@@ -1,6 +1,7 @@
 #Geometry
 import math
 import random
+import pdb 
 
 
 class Point:
@@ -16,6 +17,10 @@ class Point:
 			return math.pi/2 if base.y < comp.y else 3*math.pi/2
 		angle = math.atan((comp.y - base.y)/(1.0 * (comp.x - base.x))) 
 		return angle if angle >= 0 else angle + math.pi
+
+	@staticmethod
+	def euclidian_distance(point1, point2):
+		return math.sqrt(math.pow(point1.x - point2.x, 2) + math.pow(point1.y - point2.y, 2))
 
 	def __str__(self):
 		return "Point(%s, %s)"%(self.x, self.y)
@@ -83,6 +88,10 @@ if __name__ == '__main__':
 	point2 = Point(0,2)
 
 	assert Point.calculate_polar_angle(point1, point2) > 0
+
+#added test for euclidean distanceca
+	print(Point.euclidian_distance(point1, point2))
+	assert Point.euclidian_distance(point1, point2) == math.sqrt(2)
 
 
 

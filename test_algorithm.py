@@ -1,7 +1,8 @@
 #test_algorthm
 import unittest
 from algorithm import Algorithm
-from geometry import Point, Segment 
+from geometry import Point, Segment
+import pdb
 
 
 class test_algorithm(unittest.TestCase):
@@ -9,8 +10,9 @@ class test_algorithm(unittest.TestCase):
 	def test_min_point(self):
 		point_array = [Point(10, 5), Point(3, 2), Point(5, 5), Point(6, 10)]
 		algo = Algorithm(point_array)
-		
-		self.assertEqual(str(algo.min_point()), str(Point(3, 2)))
+		p = algo.min_point()
+	
+		self.assertEqual(str(p), str(Point(3, 2)))
 	
 	def test_polar_angle(self):
 		point_array = [Point(1, 1), Point(2, 2), Point(2, 3), Point(2, 1)]
@@ -27,8 +29,6 @@ class test_algorithm(unittest.TestCase):
 		polar_list = algo.polar_angle_sort(Point(1,1))
 
 		self.assertEqual(str(polar_list[-1]), str(Point(0,2)))
-
-
 
 
 	def test_output_polar(self):
@@ -57,6 +57,32 @@ class test_algorithm(unittest.TestCase):
 
 		self.assertEqual(str(seg_list[0]), str(Segment(Point(19, 42), Point(34, 5))))
 
+
+	def test_nonunique_angles(self):
+		point_array = [
+		Point(2, 4), 
+		Point(3, 10), 
+		Point(2, 5), 
+		Point(0, 0),
+		Point(3, 6)
+	]
+		print(Point.euclidian_distance(point_array[0], point_array[1]))
+
+		algo = Algorithm(point_array)
+		algo.sort_point_array()
+		list_dups = algo.find_duplicate_angles()
+
+		print(list_dups)
+
+		d = algo.remove_closest_duplicate()
+
+		for d, k in d.items():
+			print(d)
+			print(k)
+
+
+	
+		self.assertEqual(str(algo.min_point), str(Point(35, 5)))
 
 if __name__ == '__main__':
 	unittest.main()

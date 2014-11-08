@@ -3,6 +3,8 @@ from state_manager import StateManager, State
 from geometry import Point, Segment
 import sys
 import copy
+from operator import itemgetter
+from collections import Counter, defaultdict
 
 class Algorithm:
 	
@@ -11,6 +13,7 @@ class Algorithm:
 		self.stack = list()
 		self.state_manager = StateManager()
 		self.index = 0
+		self.minimum_point = self.min_point()
 
 	def increment_state(self):
 		self.state_manager.increment_state()
@@ -39,6 +42,30 @@ class Algorithm:
 
 	def sort_point_array(self):
 		self.point_array = self.polar_angle_sort(self.min_point())
+
+	def find_duplicate_angles(self):
+		'''Find points with the same polar angle'''
+		counter = Counter([Point.calculate_polar_angle(self.minimum_point, x) for x in self.point_array if x != self.minimum_point])
+		non_uniques = [angle for angle, count in counter.items() if count > 1]
+		non_unique_points = [(Point.calculate_polar_angle(self.minimum_point, p), p, Point.euclidian_distance(self.minimum_point, p)) for p in self.point_array if Point.calculate_polar_angle(self.minimum_point, p) in non_uniques]
+		sorted_non_uniques = sorted(non_unique_points, key = itemgetter(1,2))
+		return sorted_non_uniques
+
+	def remove_closest_duplicate(self):
+		'''Among points with the same polar angle, calculate euclidean distance'''
+		duplicates = self.find_duplicate_angles()
+		remove_points = list()
+		'''for tuples with same subset, return only longest'''
+		d = defaultdict(list)
+		for angle, point, dist in duplicates:
+			d[angle].append(point)
+#NEED TO FIX THIS ERROR
+#WIP
+		print(type(d))
+		for key, items in d.items():
+			print(items)
+			#remove_points.extend(items[:-1])
+		return remove_points
 
 	def init_stack(self):
 		self.stack = list()
