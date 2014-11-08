@@ -66,20 +66,18 @@ class test_algorithm(unittest.TestCase):
 		Point(0, 0),
 		Point(3, 6)
 	]
-		print(Point.euclidian_distance(point_array[0], point_array[1]))
+		#print(Point.euclidian_distance(point_array[0], point_array[1]))
 
 		algo = Algorithm(point_array)
 		algo.sort_point_array()
 		list_dups = algo.find_duplicate_angles()
 
-		print(list_dups)
+		#print(list_dups)
 
-		d = algo.remove_closest_duplicate()
+		points_to_remove = algo.remove_closest_duplicate()
 
-		for d, k in d.items():
-			print(d)
-			print(k)
-
+		for point in points_to_remove:
+			print(str(point))
 
 	
 		self.assertEqual(str(algo.min_point), str(Point(35, 5)))

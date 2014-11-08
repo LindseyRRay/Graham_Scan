@@ -5,6 +5,7 @@ import sys
 import copy
 from operator import itemgetter
 from collections import Counter, defaultdict
+import pdb 
 
 class Algorithm:
 	
@@ -54,18 +55,21 @@ class Algorithm:
 	def remove_closest_duplicate(self):
 		'''Among points with the same polar angle, calculate euclidean distance'''
 		duplicates = self.find_duplicate_angles()
+		angle_point_dict = dict()
 		remove_points = list()
-		'''for tuples with same subset, return only longest'''
-		d = defaultdict(list)
-		for angle, point, dist in duplicates:
-			d[angle].append(point)
+		'''Make dictionary with angle, point, maintaining sorted order'''
+		for angle, point, distance in duplicates:
+			if angle in angle_point_dict:
+				angle_point_dict[angle].extend([point])
+			angle_point_dict[angle] = [point]
+		'''return list of points remove'''
+		for key, list_points in angle_point_dict.items():
+			remove_points.extend([list_points])
+	#		remove_points.extend([list_points[:-1]])
+		return remove_points
+
 #NEED TO FIX THIS ERROR
 #WIP
-		print(type(d))
-		for key, items in d.items():
-			print(items)
-			#remove_points.extend(items[:-1])
-		return remove_points
 
 	def init_stack(self):
 		self.stack = list()
@@ -73,16 +77,29 @@ class Algorithm:
 		self.stack.append(self.point_array[1])
 		self.stack.append(self.point_array[2])
 		self.index = 2
-#pseudo code
 
-#	def select_point(self):
-#		self.index += 1
-#		for self.index in xrange(3, len(point_array)):
-#			while angle(self.stack[-2], self.stack[-1], next_point) > nonleftturn:
-#				pop(self.stack[-1])
-#			push(next_point onto stack)
-#		return stack 
+	def cross_product(self, v1, v2):
+		return (v1.x * v2.y - v1.y * v2.x)
 
+	def is_nonleft_turn(self, p1, p2, p3):
+		v1 = Point((p2.x - p1.x), (p2.y - p1.y))
+		v2 = Point((p3.x - p2.x), (p3.y - p2.y))
+		determinant = self.cross_product(v1, v2)
+
+		return True if determinant <= 0 else False 
+
+	def select_point(self):
+		''' calculate angle between point on top of stack, next to top and 
+		next angle has a signed determinant <= 0. If so, this is a counter
+		clockwise orientation and a nonleft turn '''
+		
+		self.index = 2
+		for self.index in xrange(2, len(point_array)):
+			if is_nonleft_turn(self.stack[-2], self.stack[-1], self.point_array[self.index]):
+				pop(self.stack[-1])
+			push(next_point onto stack)
+			self.index += 1
+		return stack 
 
 
 	def next_step(self):
