@@ -4,18 +4,18 @@ from geometry import Point, Segment
 import sys
 import copy
 from operator import itemgetter
-from collections import Counter, defaultdict
-import pdb 
+from itertools import groupby
+
 
 class Algorithm:
 	
 	def __init__(self, point_array):
+		
 		self.point_array = point_array
 		self.stack = list()
 		self.state_manager = StateManager()
 		self.index = 0
 		self.minimum_point = self.min_point()
-
 
 	def increment_state(self, is_right_turn = False, out_of_points = False):
 		self.state_manager.increment_state(is_right_turn = is_right_turn, out_of_points = out_of_points)
@@ -47,32 +47,18 @@ class Algorithm:
 	def sort_point_array(self):
 		self.point_array = self.polar_angle_sort(self.min_point())
 
+
 	def find_duplicate_angles(self):
 		'''Find points with the same polar angle'''
-		counter = Counter([Point.calculate_polar_angle(self.minimum_point, x) for x in self.point_array if x != self.minimum_point])
-		non_uniques = [angle for angle, count in counter.items() if count > 1]
-		non_unique_points = [(Point.calculate_polar_angle(self.minimum_point, p), p, Point.euclidian_distance(self.minimum_point, p)) for p in self.point_array if Point.calculate_polar_angle(self.minimum_point, p) in non_uniques]
-		sorted_non_uniques = sorted(non_unique_points, key = itemgetter(1,2))
-		return sorted_non_uniques
+		points_angles = [(p, Point.calculate_polar_angle(self.minimum_point, p), Point.euclidian_distance(self.minimum_point, p)) for p in self.point_array if p != self.minimum_point]
+		sorted_angles = sorted(points_angles, key = itemgetter(1,2))
+		list_to_keep = list()
 
-	def remove_closest_duplicate(self):
-		'''Among points with the same polar angle, calculate euclidean distance'''
-		duplicates = self.find_duplicate_angles()
-		angle_point_dict = dict()
-		remove_points = list()
-		'''Make dictionary with angle, point, maintaining sorted order'''
-		for angle, point, distance in duplicates:
-			if angle in angle_point_dict:
-				angle_point_dict[angle].extend([point])
-			angle_point_dict[angle] = [point]
-		'''return list of points remove'''
-		for key, list_points in angle_point_dict.items():
-			remove_points.extend([list_points[:-1]])
-	#		remove_points.extend([list_points[:-1]])
-		return remove_points
+		for key, values in groupby(sorted_angles, key = itemgetter(1)):
+			list_to_keep.extend(list(values)[-1])
 
-#NEED TO FIX THIS ERROR
-#WIP
+		return list_to_keep
+
 
 	def init_stack(self):
 		self.stack = list()

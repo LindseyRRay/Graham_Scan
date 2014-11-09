@@ -70,17 +70,12 @@ class test_algorithm(unittest.TestCase):
 
 		algo = Algorithm(point_array)
 		algo.sort_point_array()
-		list_dups = algo.find_duplicate_angles()
+		list_nondups = algo.find_duplicate_angles()
 
-		#print(list_dups)
+		for n in list_nondups:
+			print str(n)
 
-		points_to_remove = algo.remove_closest_duplicate()
-
-		for point in points_to_remove:
-			print(str(point))
-
-	
-		self.assertEqual(str(algo.min_point), str(Point(35, 5)))
+		self.assertEqual(str(algo.minimum_point), str(Point(0, 0)))
 
 if __name__ == '__main__':
 	unittest.main()
