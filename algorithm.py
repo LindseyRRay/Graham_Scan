@@ -48,18 +48,6 @@ class Algorithm:
 		self.point_array = self.polar_angle_sort(self.min_point())
 
 
-	def find_duplicate_angles(self):
-		'''Find points with the same polar angle'''
-		points_angles = [(p, Point.calculate_polar_angle(self.minimum_point, p), Point.euclidian_distance(self.minimum_point, p)) for p in self.point_array if p != self.minimum_point]
-		sorted_angles = sorted(points_angles, key = itemgetter(1,2))
-		list_to_keep = list()
-
-		for key, values in groupby(sorted_angles, key = itemgetter(1)):
-			list_to_keep.extend(list(values)[-1])
-
-		return list_to_keep
-
-
 	def init_stack(self):
 		self.stack = list()
 		self.stack.append(self.point_array[0])
@@ -125,4 +113,5 @@ class Algorithm:
 		elif self.state_manager.current_state == State.complete:
 			pass
 
-					
+
+
