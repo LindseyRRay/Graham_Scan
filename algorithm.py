@@ -16,14 +16,17 @@ class Algorithm:
 		self.index = 0
 		self.minimum_point = self.min_point()
 
-	def increment_state(self):
-		self.state_manager.increment_state()
+
+	def increment_state(self, is_right_turn = False, out_of_points = False):
+		self.state_manager.increment_state(is_right_turn = is_right_turn, out_of_points = out_of_points)
 
 	def segments(self):
 		if not self.stack:
 			return [] 
 		tuple_list = zip(self.stack, self.stack[1:])
 		segment_list = map(lambda x: Segment(x[0], x[1]), tuple_list)
+		if self.state_manager.current_state == State.complete:
+			segment_list.append(Segment(self.stack[-1], self.stack[0]))
 		return segment_list
 
 	def min_point(self):
@@ -64,7 +67,7 @@ class Algorithm:
 			angle_point_dict[angle] = [point]
 		'''return list of points remove'''
 		for key, list_points in angle_point_dict.items():
-			remove_points.extend([list_points])
+			remove_points.extend([list_points[:-1]])
 	#		remove_points.extend([list_points[:-1]])
 		return remove_points
 
@@ -78,29 +81,33 @@ class Algorithm:
 		self.stack.append(self.point_array[2])
 		self.index = 2
 
+	def is_checking_point(self):
+		return self.state_manager.current_state == State.check_angle
+
 	def cross_product(self, v1, v2):
 		return (v1.x * v2.y - v1.y * v2.x)
 
 	def is_nonleft_turn(self, p1, p2, p3):
-		v1 = Point((p2.x - p1.x), (p2.y - p1.y))
+		v1 = Point((p1.x - p2.x), (p1.y - p2.y))
 		v2 = Point((p3.x - p2.x), (p3.y - p2.y))
 		determinant = self.cross_product(v1, v2)
 
-		return True if determinant <= 0 else False 
+		return True if determinant > 0 else False 
 
 	def select_point(self):
-		''' calculate angle between point on top of stack, next to top and 
-		next angle has a signed determinant <= 0. If so, this is a counter
-		clockwise orientation and a nonleft turn '''
-		
-		self.index = 2
-		for self.index in xrange(2, len(point_array)):
-			if is_nonleft_turn(self.stack[-2], self.stack[-1], self.point_array[self.index]):
-				pop(self.stack[-1])
-			push(next_point onto stack)
-			self.index += 1
-		return stack 
+		self.index += 1
 
+	def check_angle(self):
+		return self.is_nonleft_turn(self.stack[-2], self.stack[-1], self.point_array[self.index])
+
+	def pop(self):
+		self.stack.pop()
+
+	def is_out_of_points(self):
+		return self.index >= len(self.point_array) - 1
+
+	def push(self):
+		self.stack.append(self.point_array[self.index])
 
 	def next_step(self):
 		if self.state_manager.current_state == State.not_run:
@@ -117,5 +124,19 @@ class Algorithm:
 		elif self.state_manager.current_state == State.select_point:
 			self.select_point()
 			self.increment_state()
- 
+
+		elif self.state_manager.current_state == State.check_angle:
+			self.increment_state(is_right_turn = self.check_angle())
+
+		elif self.state_manager.current_state == State.pop:
+			self.pop()
+			self.increment_state()
+
+		elif self.state_manager.current_state == State.push:
+			self.push()
+			self.increment_state(out_of_points = self.is_out_of_points())
+
+		elif self.state_manager.current_state == State.complete:
+			pass
+
 					

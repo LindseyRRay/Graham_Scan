@@ -5,6 +5,8 @@ BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 CHART = (127, 255, 0)
+GREEN = (0, 255, 0)
+PURPLE = (255, 0, 255)
 
 
 class Renderer:
@@ -13,18 +15,20 @@ class Renderer:
 		self.window.fill((255, 255, 255))
 		#fill with white 
 	
-	def queue_point(self, point, color=BLACK):
+	def queue_point(self, point, color = BLACK):
 		pygame.draw.circle(self.window, color, self.local_to_world(point.tup()), 2, 0)
 
-	def queue_segment(self, segment, color=BLACK):
+	def queue_segment(self, segment, color = BLACK):
 		pygame.draw.line(self.window, color, self.local_to_world(segment.start.tup()), self.local_to_world(segment.end.tup())) 
 
 	def queue_algorithm(self, algo):
-		[self.queue_point(point, color=RED) for point in algo.point_array]
-		self.queue_point(algo.point_array[0], color=BLUE)
+		[self.queue_point(point, color = RED) for point in algo.point_array]
+		self.queue_point(algo.point_array[0], color = BLUE)
 		[self.queue_segment(segment) for segment in algo.segments()]
 		if algo.index >= 3:
-			self.queue_point(algo.point_array[algo.index], color=CHART)
+			self.queue_point(algo.point_array[algo.index], color = BLACK)
+			if algo.is_checking_point():
+				self.queue_point(algo.stack[-1], color = GREEN)
 
 	def local_to_world(self, tup):
 		new_x = int(tup[0] + self.window.get_width()/2)

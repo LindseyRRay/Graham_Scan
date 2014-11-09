@@ -14,7 +14,7 @@ window = pygame.display.set_mode((800, 600))
 
 rend = Renderer(window)
 
-point_list = Point.generate_points(100, -200, 200, -200, 200)
+point_list = Point.generate_points(1000, -200, 200, -200, 200)
 algo = Algorithm(point_list)
 
 while True:
@@ -24,5 +24,5 @@ while True:
 	algo.next_step()
 	rend.queue_algorithm(algo)
 	rend.draw()
-	time.sleep(2)
+	time.sleep(0.01)
 #pygame.draw.circle
