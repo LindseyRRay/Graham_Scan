@@ -16,7 +16,7 @@ class StateManager:
 	def __init__(self):
 		self.current_state = State.not_run
 		
-	def increment_state(self, is_right_turn=False, out_of_points=False):
+	def increment_state(self, is_right_turn = False, out_of_points = False):
 		if self.current_state == State.not_run:
 			self.current_state = State.initial_point
 

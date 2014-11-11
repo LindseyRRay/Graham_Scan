@@ -66,8 +66,6 @@ class test_algorithm(unittest.TestCase):
 		Point(0, 0),
 		Point(3, 6)
 	]
-		#print(Point.euclidian_distance(point_array[0], point_array[1]))
-
 		algo = Algorithm(point_array)
 		algo.sort_point_array()
 		list_nondups = algo.find_duplicate_angles()
